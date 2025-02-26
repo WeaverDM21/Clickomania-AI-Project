@@ -19,9 +19,14 @@ class IDAStarSolver:
         min_threshold = float("inf")
         best_solution = None
 
+        print(state)
+        print()
+
         for move in state.get_possible_moves():
             new_state = state.copy()
             new_state.apply_move(move)
+            print(new_state)
+            print()
 
             cost, solution = self.search(new_state, g + 1, threshold)
             
