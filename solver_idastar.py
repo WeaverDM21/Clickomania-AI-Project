@@ -7,14 +7,15 @@ class IDAStarSolver:
         self.verbosity = verbosity
 
     def search(self, state, g, threshold):
-        """Performs a depth-first search with pruning based on f = g + h."""
         f = g + estimate_moves_remaining(state)  # f = g + h
 
+        # Return  new threshold
         if f > threshold:
-            return f, None  # Return the new threshold
+            return f, None
 
+        # Solution found
         if state.is_solved():
-            return 0, []  # Solution found
+            return 0, []  
 
         min_threshold = float("inf")
         best_solution = None
@@ -30,15 +31,15 @@ class IDAStarSolver:
 
             cost, solution = self.search(new_state, g + 1, threshold)
             
+            # Found a valid path
             if solution is not None:
-                return cost, [move] + solution  # Found a valid path
+                return cost, [move] + solution  
             
             min_threshold = min(min_threshold, cost)
 
         return min_threshold, None
 
     def solve(self):
-        """Run IDA* until a solution is found or max depth is reached."""
         threshold = estimate_moves_remaining(self.problem)
 
         while threshold <= self.max_depth:
@@ -47,12 +48,15 @@ class IDAStarSolver:
 
             cost, solution = self.search(self.problem, 0, threshold)
 
+            # Solution found
             if solution is not None:
-                return solution  # Solution found
+                return solution
 
+            # No solution possible
             if cost == float("inf"):
-                return None  # No solution possible
+                return None  
 
-            threshold = cost  # Increase threshold
+            # Increase threshold
+            threshold = cost  
 
         return None

@@ -1,5 +1,6 @@
 from clickomania import Clickomania
 from solver_idastar import IDAStarSolver
+from solver_ids import IDSSolver
 
 def main():
     # Define a sample board (5x8 example)
@@ -19,6 +20,11 @@ def main():
     idastar_solver = IDAStarSolver(problem, verbosity=1)
     idastar_solution = idastar_solver.solve()
     print("IDA* Solution:", idastar_solution)
+
+    # Solve using IDS
+    ids_solver = IDSSolver(problem, verbosity=1)
+    ids_solution = ids_solver.solve()
+    print("IDS Solution:", ids_solution)
 
 if __name__ == "__main__":
     main()
