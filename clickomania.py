@@ -2,18 +2,15 @@ import copy
 
 class Clickomania:
     def __init__(self, grid):
-        """Initialize the game board."""
         self.grid = grid
         self.rows = len(grid)
         self.cols = len(grid[0])
 
     def get_possible_moves(self):
-        """Finds all valid moves (groups of same-colored adjacent blocks)."""
         visited = set()
         moves = []
 
         def bfs(start_row, start_col):
-            """Finds all blocks connected to (start_row, start_col) of the same color."""
             queue = [(start_row, start_col)]
             color = self.grid[start_row][start_col]
             group = set(queue)
@@ -42,7 +39,6 @@ class Clickomania:
         return moves
 
     def apply_move(self, move):
-        """Applies the move (removes blocks, shifts down, and shifts left)."""
         # 1. Remove the blocks
         for r, c in move:
             self.grid[r][c] = 0  # Set to empty
@@ -70,9 +66,6 @@ class Clickomania:
                 self.grid[r][c] = new_grid[c][r]
 
     def has_adjacent_same_color(self, row, col):
-        """
-        Returns True if the block at (row, col) has at least one adjacent block of the same color.
-        """
         color = self.grid[row][col]
         if color == 0:  # Empty space
             return False
@@ -87,13 +80,10 @@ class Clickomania:
 
 
     def is_solved(self):
-        """Returns True if the board is completely cleared."""
         return all(cell == 0 for row in self.grid for cell in row)
 
     def copy(self):
-        """Returns a deep copy of the board state."""
         return Clickomania(copy.deepcopy(self.grid))
 
     def __str__(self):
-        """Returns a human-readable string representation."""
         return "\n".join(" ".join(str(cell) for cell in row) for row in self.grid)
