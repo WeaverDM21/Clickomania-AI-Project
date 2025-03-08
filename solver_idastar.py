@@ -6,19 +6,28 @@ class IDAStarSolver:
         self.max_depth = max_depth
         self.verbosity = verbosity
         self.log_file = log_file
+        self.nodes_expanded = 0
+        self.peak_memory_usage = 0
+        self.current_memory_usage = 0
 
         with open(self.log_file, "w") as f:
             f.write("IDA* Log\n\n")
 
     def search(self, state, g, threshold):
         f = g + estimate_moves_remaining(state)  # f = g + h
+        
+        self.nodes_expanded += 1
+        self.current_memory_usage += 1
+        self.peak_memory_usage = max(self.peak_memory_usage, self.current_memory_usage)
 
         # Return new threshold
         if f > threshold:
+            self.current_memory_usage -= 1
             return f, None
 
         # Solution found
         if state.is_solved():
+            self.current_memory_usage -= 1
             return 0, []
 
         min_threshold = float("inf")
@@ -36,10 +45,12 @@ class IDAStarSolver:
 
             # Found a valid path
             if solution is not None:
+                self.current_memory_usage -= 1
                 return cost, [move] + solution  
 
             min_threshold = min(min_threshold, cost)
 
+        self.current_memory_usage -= 1
         return min_threshold, None
 
     def solve(self):

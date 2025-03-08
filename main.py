@@ -37,20 +37,9 @@ def generate_solvable_board(size, colors=5):
     return board
 
 def main():
-    # Define a sample board (5x8 example)
-    # Green = 1, Teal = 2, Red = 3, Brown = 4, Orange = 5
-    # board = [
-    # [1, 1, 2, 2, 3],
-    # [1, 1, 2, 3, 3],
-    # [4, 4, 2, 3, 3],
-    # [4, 4, 5, 5, 5],
-    # [6, 6, 5, 5, 5]
-    # ]
-
-    board = generate_solvable_board(5)
-    for i in board:
-        print(i)
-
+    board = generate_solvable_board(8)
+    for row in board:
+        print(row)
 
     problem = Clickomania(board)
 
@@ -59,16 +48,23 @@ def main():
     idastar_solver = IDAStarSolver(problem, verbosity=2)
     idastar_solution = idastar_solver.solve()
     idastar_time = time.time() - start_time
+
     print("IDA* time:", idastar_time)
     print("IDA* Solution:", idastar_solution)
+    print("Nodes expanded:", idastar_solver.nodes_expanded)
+    print("Peak memory usage:", idastar_solver.peak_memory_usage)
 
     # Solve using IDS
-    start_time = time.time()
     ids_solver = IDSSolver(problem, verbosity=2)
-    ids_solution = ids_solver.solve()
+    start_time = time.time()
+    ids_solution, nodes_expanded, peak_memory = ids_solver.solve()
     ids_time = time.time() - start_time
+    
     print("IDS time:", ids_time)
     print("IDS Solution:", ids_solution)
+    print("Nodes expanded:", nodes_expanded)
+    print("Peak memory usage:", peak_memory)
+
 
 if __name__ == "__main__":
     main()
