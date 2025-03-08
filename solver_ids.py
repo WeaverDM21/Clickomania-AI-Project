@@ -1,9 +1,9 @@
 class IDSSolver:
     def __init__(self, problem, max_depth=15, verbosity=0, log_file="ids_log.txt"):
-        self.problem = problem
-        self.max_depth = max_depth
-        self.verbosity = verbosity
-        self.log_file = log_file
+        self.problem = problem # Game Board
+        self.max_depth = max_depth # Maximum depth to search
+        self.verbosity = verbosity # Level for data display
+        self.log_file = log_file # Stores the data collected
         self.nodes_expanded = 0  # Tracks the number of nodes expanded
         self.peak_memory = 0  # Tracks peak memory usage (max stored states at any point)
         self.current_memory = 0  # Current number of stored states
@@ -13,7 +13,7 @@ class IDSSolver:
 
     def depth_limited_search(self, state, depth):
         self.nodes_expanded += 1  # Increment nodes expanded
-        self.current_memory += 1  # Increase stored states
+        self.current_memory += 1  # Increment stored states
         self.peak_memory = max(self.peak_memory, self.current_memory)
 
         # Solution found
