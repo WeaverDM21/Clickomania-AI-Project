@@ -14,9 +14,10 @@ def estimate_moves_remaining(problem):
         for c in range(len(grid[0])):
             color = grid[r][c]
             if color != 0:
-                if not problem.has_adjacent_same_color(r, c):
+                if not problem.has_adjacent_same_color(r, c): # Block is isolated if no adjacent blocks of same color
                     isolated_blocks += 1
                 else:
+                    # Count the number of blocks in each color group
                     if color not in color_groups:
                         color_groups[color] = 0
                     color_groups[color] += 1
